@@ -4,13 +4,16 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.login.viewmodel.LoginViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true">
+        android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.MaterialComponents.CardView"
@@ -57,14 +60,16 @@
                     app:startIconTint="@color/purple_200">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/login_password"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel._userName}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/login_inputlayout_password"
                     style="@style/CardViewLogin"
-                    android:hint="@string/label"
+                    android:hint="@string/hint_password"
                     app:boxBackgroundColor="@android:color/white"
                     app:boxBackgroundMode="filled"
                     app:errorEnabled="true"
@@ -75,9 +80,10 @@
                     app:startIconTint="@color/teal_700">
 
                     <com.google.android.material.textfield.TextInputEditText
-
+                        android:id="@+id/login_username"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel._password}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -86,6 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/background_light"
+                    android:enabled="@{viewModel.enableBtn(viewModel.userName,viewModel.password)}"
+                    android:onClick="@{()->viewModel.logIn(viewModel.userName,viewModel.password)}"
                     android:text="@string/logIn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/login_inputlayout_password" />
@@ -94,6 +102,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <ProgressBar
+            android:id="@+id/login_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

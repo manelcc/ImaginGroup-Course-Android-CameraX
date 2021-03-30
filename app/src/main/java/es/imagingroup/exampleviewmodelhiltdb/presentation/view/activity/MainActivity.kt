@@ -1,22 +1,36 @@
 package es.imagingroup.exampleviewmodelhiltdb.presentation.view.activity
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+
+import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import es.imagingroup.exampleviewmodelhiltdb.R
 import es.imagingroup.exampleviewmodelhiltdb.databinding.ActivityMainBinding
-import es.imagingroup.exampleviewmodelhiltdb.presentation.view.fragment.LoginFragment
-import es.imagingroup.exampleviewmodelhiltdb.presentation.viewmodel.MainActivityViewModel
 
+@AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
 
-    val viewModel:MainActivityViewModel by viewModels()
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setToolbar(binding)
         binding.lifecycleOwner = this
-        supportFragmentManager.beginTransaction().replace(binding.mainRoot.id, LoginFragment()).commitAllowingStateLoss()
+    }
+
+    private fun setToolbar(binding: ActivityMainBinding) {
+        val navController = findNavController(R.id.nav_root)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.componentToolbar.setupWithNavController(navController,appBarConfiguration)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(findNavController(R.id.nav_root), appBarConfiguration)
     }
 }

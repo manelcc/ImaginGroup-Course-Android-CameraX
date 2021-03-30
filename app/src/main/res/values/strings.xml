@@ -3,4 +3,5 @@
     <string name="label">UserName</string>
     <string name="password">Contraseña</string>
     <string name="logIn">Entrar</string>
+    <string name="hint_password">Password</string>
 </resources>
