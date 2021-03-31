@@ -4,4 +4,6 @@
     <string name="password">Contraseña</string>
     <string name="logIn">Entrar</string>
     <string name="hint_password">Password</string>
+    <string name="insert_text">Buenas %s escribe aqui</string>
+    <string name="hint_input_text">Lo que escribas ser vera a la derecha</string>
 </resources>

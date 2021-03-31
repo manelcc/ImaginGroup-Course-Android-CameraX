@@ -18,5 +18,11 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.home.view.HomeFragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <argument
+            android:name="user"
+            app:argType="es.imagingroup.exampleviewmodelhiltdb.domain.model.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

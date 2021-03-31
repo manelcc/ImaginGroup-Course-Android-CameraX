@@ -45,7 +45,7 @@ class LoginFragment : Fragment() {
 
     fun successLogIn(user: User) {
         if (user.name.isNotBlank()) {
-            findNavController().navigate(R.id.to_homeFragment)
+            findNavController().navigate(LoginFragmentDirections.toHomeFragment(user))
             clearValues()
         }
     }
