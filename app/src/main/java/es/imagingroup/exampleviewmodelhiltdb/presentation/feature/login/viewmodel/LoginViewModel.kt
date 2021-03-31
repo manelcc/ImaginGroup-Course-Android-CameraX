@@ -42,7 +42,6 @@ class LoginViewModel @Inject constructor(
                 .onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }
                 .catch { _errorView.value = it as ErrorView }
-                .conflate()
                 .collect {
                     _user.value = it }
 
@@ -50,8 +49,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun clearValues() {
-        _userName.value = null
-        _password.value = null
+        _user.value = User()
     }
 
 }

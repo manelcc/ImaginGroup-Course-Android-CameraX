@@ -44,9 +44,9 @@ class LoginFragment : Fragment() {
     }
 
     fun successLogIn(user: User) {
-        when {
-            user.name.isNotBlank() -> {findNavController().navigate(R.id.to_homeFragment);clearValues()}
-            else -> showError("Usuario no logueado")
+        if (user.name.isNotBlank()) {
+            findNavController().navigate(R.id.to_homeFragment)
+            clearValues()
         }
     }
 
