@@ -6,19 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import es.imagingroup.exampleviewmodelhiltdb.databinding.HomeFragmentBinding
-import es.imagingroup.exampleviewmodelhiltdb.domain.model.User
 import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.home.viewmodel.HomeViewModel
+import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class HomeFragment:Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
     private val arguments by navArgs<HomeFragmentArgs>()
-    private val viewmodel: HomeViewModel by viewModels()
+    private val viewmodel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +35,6 @@ class HomeFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments.user?.let { viewmodel.userHome(it) }
-        Log.i("manel","value user ${arguments.user}")
+        viewmodel.setUserHome(arguments.user)
     }
 }

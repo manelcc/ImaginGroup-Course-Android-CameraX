@@ -1,5 +1,6 @@
 package es.imagingroup.exampleviewmodelhiltdb.presentation.feature.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(): BaseViewModel() {
 
+
     val  _inputText:MutableLiveData<String> = MutableLiveData()
 
     val inputText:LiveData<String> get() = _inputText
@@ -17,8 +19,9 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     private val _userHome:MutableLiveData<User> = MutableLiveData()
     val userHome:LiveData<User> get() = _userHome
 
-    fun userHome(user: User) {
-        _userHome.value = user
+    fun setUserHome(user: User?) {
+        Log.i("manel","value user VIEWMODEL ${user?.name}")
+       _userHome.value = user
     }
 
 

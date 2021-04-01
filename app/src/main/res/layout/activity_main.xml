@@ -19,7 +19,7 @@
                 android:id="@+id/componentToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
-                app:popupTheme="@style/Theme.ExampleViewmodelHiltDB.AppBarOverlay" />
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <fragment

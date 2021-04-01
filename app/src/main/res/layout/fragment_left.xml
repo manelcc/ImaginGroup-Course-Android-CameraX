@@ -20,7 +20,7 @@
             android:id="@+id/fragment_left_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{vm.userHome.name}"
+            android:text="@{@string/insert_text(vm.userHome.name)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
