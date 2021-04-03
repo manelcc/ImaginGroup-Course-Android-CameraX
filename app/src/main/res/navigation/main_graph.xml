@@ -24,5 +24,12 @@
             app:argType="es.imagingroup.exampleviewmodelhiltdb.domain.model.User"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/to_dataStoreExample"
+            app:destination="@id/dataStoreExample" />
     </fragment>
+    <fragment
+        android:id="@+id/dataStoreExample"
+        android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.DataStoreExample"
+        android:label="DataStoreExample" />
 </navigation>

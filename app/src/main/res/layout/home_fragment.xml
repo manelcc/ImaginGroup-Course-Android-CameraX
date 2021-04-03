@@ -10,10 +10,12 @@
             android:id="@+id/home_fragment_left"
             android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.home.view.FragmentLeft"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_percent="0.5" />
 
 
@@ -21,10 +23,31 @@
             android:id="@+id/home_fragment_right"
             android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.home.view.FragmentRight"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.5"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_percent="0.5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/datastore"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="datastore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_fragment_right" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="workmanager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/datastore" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
