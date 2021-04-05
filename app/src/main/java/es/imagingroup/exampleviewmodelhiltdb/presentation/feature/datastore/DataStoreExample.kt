@@ -14,15 +14,18 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import es.imagingroup.exampleviewmodelhiltdb.UserProto
 import es.imagingroup.exampleviewmodelhiltdb.databinding.DataStoreExampleBinding
 import es.imagingroup.exampleviewmodelhiltdb.databinding.FragmentLeftBinding
+import es.imagingroup.exampleviewmodelhiltdb.domain.model.settingsDataStore
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class DataStoreExample: Fragment() {
+class DataStoreExample : Fragment() {
 
     private lateinit var binding: DataStoreExampleBinding
 
@@ -43,12 +46,18 @@ class DataStoreExample: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        datatSorePreference()
+        dataStoreProto()
+    }
+
+    private fun datatSorePreference() {
+        //write
         GlobalScope.launch { writePreference() }
 
-
+        //read
         lifecycleScope.launchWhenCreated {
             readPreference()?.collect {
-                Log.i("datastore","lectura del valor $it")
+                Log.i("datastore", "lectura del valor $it")
             }
         }
     }
@@ -57,12 +66,28 @@ class DataStoreExample: Fragment() {
         context?.dataStore?.edit {
             it[keyString] = "manel"
         }
-
     }
 
     private fun readPreference(): Flow<String>? {
         return context?.dataStore?.data?.map {
-            it[keyString]?:"no hay nada"
+            it[keyString] ?: "no hay nada"
         }
+    }
+
+    private fun dataStoreProto() {
+        lifecycleScope.launchWhenCreated {
+            context?.settingsDataStore?.updateData { userProto ->
+                userProto.toBuilder().setName("jose").setLastname("vela").setAge(55).build()
+            }
+        }
+
+        lifecycleScope.launch {
+            Log.e("datastore","value ${context?.settingsDataStore?.data?.first()}")
+            context?.settingsDataStore?.data?.first()
+            // You should also handle IOExceptions here.
+        }
+
+
+
     }
 }
