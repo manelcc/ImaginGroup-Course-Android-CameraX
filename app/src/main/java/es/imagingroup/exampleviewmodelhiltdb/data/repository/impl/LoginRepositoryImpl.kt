@@ -1,7 +1,9 @@
 package es.imagingroup.exampleviewmodelhiltdb.data.repository.impl
 
 
+import androidx.datastore.core.DataStore
 import es.imagingroup.domain.repository.LoginRepository
+import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
 import es.imagingroup.exampleviewmodelhiltdb.data.exception.getError
 import es.imagingroup.exampleviewmodelhiltdb.domain.model.User
 import kotlinx.coroutines.delay
@@ -12,23 +14,21 @@ import javax.inject.Inject
 
 
 class LoginRepositoryImpl @Inject constructor(
-   // private val serializerUserProto: SerializerUserProto
+   private val manager: DataStore<UserProtoEncript>
 ) : LoginRepository {
 
     override fun logIn(userName: String, password: String): Flow<User> {
-        return flow { emit(fakeLogin()) }.catch { throw getError(it) }
+        return flow { emit(fakeLogin(manager)) }.catch { throw getError(it) }
     }
 
 
-    private suspend fun fakeLogin(): User {
+    private suspend fun fakeLogin(userProto: DataStore<UserProtoEncript>): User {
         delay(3000)
-        return User("manel", "cabezas", 49)
-
-        /*.also {
-            serializerUserProto?.getStore()?.updateData { userProtoEncript ->
+        return User("manel", "cabezas", 49).also {
+            userProto.updateData { userProtoEncript ->
                 userProtoEncript.toBuilder().setName(it.name).setLastname(it.lastName).setAge(it.age).build()
             }
-        }*/
+        }
     }
 
     private fun fakeExceptionLogin(): User {

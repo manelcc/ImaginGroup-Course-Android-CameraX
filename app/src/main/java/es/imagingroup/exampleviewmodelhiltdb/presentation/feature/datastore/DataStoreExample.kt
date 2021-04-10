@@ -29,6 +29,7 @@ class DataStoreExample : Fragment() {
 
     private lateinit var binding: DataStoreExampleBinding
 
+
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
     val keyString = stringPreferencesKey("keyString")
     val keyInt = intPreferencesKey("keyInt")

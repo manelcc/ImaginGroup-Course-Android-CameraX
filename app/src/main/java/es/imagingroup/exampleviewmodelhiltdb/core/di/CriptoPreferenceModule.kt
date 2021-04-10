@@ -2,6 +2,7 @@ package es.imagingroup.exampleviewmodelhiltdb.core.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.google.crypto.tink.Aead
@@ -13,19 +14,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
+import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.DataStoreManager
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object CriptoPreferenceModule {
 
-
     private const val KEYSET_NAME = "master_keyset"
     private const val PREFERENCE_FILE = "master_key_preference"
     private const val MASTER_KEY_URI = "android-keystore://master_key"
-
-
-
 
     @Provides
     fun provideMainKey(@ApplicationContext applicationContext: Context): MasterKey {
@@ -58,6 +57,14 @@ object CriptoPreferenceModule {
             .keysetHandle
             .getPrimitive(Aead::class.java)
     }
+
+    @Provides
+    fun pruebas2(){
+
+    }
+
+    @Provides
+    fun pruebas(@ApplicationContext context: Context, aead: Aead): DataStore<UserProtoEncript> = DataStoreManager(context, aead).getStore()
 
 
 }
