@@ -21,7 +21,6 @@ class LoginRepositoryImpl @Inject constructor(
         return flow { emit(fakeLogin(userProtoEncript)) }.catch { throw getError(it) }
     }
 
-
     private suspend fun fakeLogin(userProtoEncript: DataStore<UserProtoEncript>): User {
         delay(3000)
         return User("manel", "cabezas", 49).also {
@@ -33,6 +32,5 @@ class LoginRepositoryImpl @Inject constructor(
 
     private fun fakeExceptionLogin(): User {
         throw NullPointerException()
-
     }
 }
