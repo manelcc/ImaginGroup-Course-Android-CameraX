@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface GetLoginUseCase {
-    fun logIn(userName:String,password:String): Flow<User>
+    fun logIn(userName:String, password:String): Flow<User>
 }

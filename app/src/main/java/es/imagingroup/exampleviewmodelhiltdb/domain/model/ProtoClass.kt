@@ -11,8 +11,7 @@ import java.io.InputStream
 import java.io.OutputStream
 
 
-
-object ProtoClass: Serializer<UserProto> {
+object ProtoClass : Serializer<UserProto> {
     override val defaultValue: UserProto = UserProto.getDefaultInstance()
 
     override suspend fun readFrom(input: InputStream): UserProto {
@@ -25,10 +24,13 @@ object ProtoClass: Serializer<UserProto> {
 
     override suspend fun writeTo(
         t: UserProto,
-        output: OutputStream) = t.writeTo(output)
+        output: OutputStream
+    ) = t.writeTo(output)
 }
 
 val Context.settingsDataStore: DataStore<UserProto> by dataStore(
     fileName = "settings.pb",
     serializer = ProtoClass
 )
+
+
