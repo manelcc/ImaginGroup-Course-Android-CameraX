@@ -1,4 +1,4 @@
-package es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore
+package es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.manager
 
 import android.content.Context
 import androidx.datastore.core.DataStore

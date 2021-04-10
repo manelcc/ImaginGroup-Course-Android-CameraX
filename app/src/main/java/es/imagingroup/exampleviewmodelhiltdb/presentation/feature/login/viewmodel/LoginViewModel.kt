@@ -41,9 +41,7 @@ class LoginViewModel @Inject constructor(
                 .onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }
                 .catch { _errorView.value = it as ErrorView }
-                .collect {
-                    _user.value = it }
-
+                .collect { _user.value = it }
         }
     }
 

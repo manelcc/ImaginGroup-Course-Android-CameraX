@@ -30,6 +30,6 @@
     </fragment>
     <fragment
         android:id="@+id/dataStoreExample"
-        android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.DataStoreExample"
+        android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.view.DataStoreExample"
         android:label="DataStoreExample" />
 </navigation>

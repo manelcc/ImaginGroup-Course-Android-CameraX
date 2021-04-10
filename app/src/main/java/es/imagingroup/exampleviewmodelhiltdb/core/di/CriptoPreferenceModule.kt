@@ -15,7 +15,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
-import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.DataStoreManager
+import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.manager.DataStoreManager
 import javax.inject.Singleton
 
 

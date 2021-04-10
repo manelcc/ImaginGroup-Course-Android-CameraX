@@ -33,4 +33,10 @@ class FragmentLeft:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = sharedViewModel
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        println("🥵 ${this.javaClass.simpleName} #${this.hashCode()}  onDestroyView()")
+        binding.invalidateAll()
+    }
 }
