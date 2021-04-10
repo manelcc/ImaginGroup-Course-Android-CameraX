@@ -16,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
 import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.DataStoreManager
+import javax.inject.Singleton
 
 
 @Module
@@ -58,13 +59,10 @@ object CriptoPreferenceModule {
             .getPrimitive(Aead::class.java)
     }
 
-    @Provides
-    fun pruebas2(){
 
-    }
-
+    @Singleton
     @Provides
-    fun pruebas(@ApplicationContext context: Context, aead: Aead): DataStore<UserProtoEncript> = DataStoreManager(context, aead).getStore()
+    fun provideDataStoreEncript(@ApplicationContext context: Context, aead: Aead): DataStore<UserProtoEncript> = DataStoreManager(context, aead).dataStore
 
 
 }

@@ -8,6 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
 import es.imagingroup.exampleviewmodelhiltdb.domain.model.UserProto
 import javax.inject.Inject
+import javax.inject.Singleton
+
 
 
 class DataStoreManager @Inject constructor(
@@ -19,7 +21,9 @@ class DataStoreManager @Inject constructor(
         serializer = UserProto(aead)
     )
 
-    fun getStore(): DataStore<UserProtoEncript> {
-        return context.managerStore
-    }
+    @Singleton
+    val dataStore:DataStore<UserProtoEncript>
+        get() = context.managerStore
+
+
 }

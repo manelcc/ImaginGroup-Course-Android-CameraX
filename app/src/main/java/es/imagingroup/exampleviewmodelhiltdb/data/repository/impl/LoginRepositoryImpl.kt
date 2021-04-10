@@ -14,19 +14,19 @@ import javax.inject.Inject
 
 
 class LoginRepositoryImpl @Inject constructor(
-   private val manager: DataStore<UserProtoEncript>
+   private val userProtoEncript: DataStore<UserProtoEncript>
 ) : LoginRepository {
 
     override fun logIn(userName: String, password: String): Flow<User> {
-        return flow { emit(fakeLogin(manager)) }.catch { throw getError(it) }
+        return flow { emit(fakeLogin(userProtoEncript)) }.catch { throw getError(it) }
     }
 
 
-    private suspend fun fakeLogin(userProto: DataStore<UserProtoEncript>): User {
+    private suspend fun fakeLogin(userProtoEncript: DataStore<UserProtoEncript>): User {
         delay(3000)
         return User("manel", "cabezas", 49).also {
-            userProto.updateData { userProtoEncript ->
-                userProtoEncript.toBuilder().setName(it.name).setLastname(it.lastName).setAge(it.age).build()
+            userProtoEncript.updateData { value ->
+                value.toBuilder().setName(it.name).setLastname(it.lastName).setAge(it.age).build()
             }
         }
     }
