@@ -75,10 +75,10 @@ class LoginFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("UPS algo salio mal")
             .setMessage(message)
-            .setNegativeButton("CANCEL") { dialog, which ->
+            .setNegativeButton("CANCEL") { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton("REINTENTAR") { dialog, which ->
+            .setPositiveButton("REINTENTAR") { _, _ ->
                 /*viewModel.logIn(
                     viewModel.userName.value ?: "",
                     viewModel.password.value ?: ""

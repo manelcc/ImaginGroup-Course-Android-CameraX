@@ -14,9 +14,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import es.imagingroup.exampleviewmodelhiltdb.UserProto
 import es.imagingroup.exampleviewmodelhiltdb.databinding.DataStoreExampleBinding
-import es.imagingroup.exampleviewmodelhiltdb.databinding.FragmentLeftBinding
 import es.imagingroup.exampleviewmodelhiltdb.domain.model.settingsDataStore
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow

@@ -17,10 +17,18 @@
 
 package es.app.laliguilla.core.extension
 
+import android.R
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.util.Base64
 import android.view.View
+import androidx.annotation.ColorRes
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.animation.doOnCancel
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
 
@@ -69,4 +77,28 @@ fun View.gone() : View {
         visibility = View.GONE
     }
     return this
+}
+
+fun AppCompatImageView.animateImageView(@ColorRes color: Int):ValueAnimator {
+    val colorAnim = ObjectAnimator.ofFloat(0f, 1f)
+    colorAnim.addUpdateListener { animation ->
+        val mul = animation.animatedValue as Float
+        val alphaOrange = adjustAlpha(color, mul)
+        this.setColorFilter(alphaOrange, PorterDuff.Mode.SRC_ATOP)
+        if (mul.toDouble() == 0.0) {
+            this.colorFilter = null
+        }
+    }
+    colorAnim.duration = 350
+    colorAnim.repeatMode = ValueAnimator.REVERSE
+    colorAnim.repeatCount = -1
+    return colorAnim
+}
+
+fun adjustAlpha(color: Int, factor: Float): Int {
+    val alpha = Math.round(Color.alpha(color) * factor)
+    val red = Color.red(color)
+    val green = Color.green(color)
+    val blue = Color.blue(color)
+    return Color.argb(alpha, red, green, blue)
 }

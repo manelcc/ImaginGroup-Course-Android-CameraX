@@ -27,9 +27,16 @@
         <action
             android:id="@+id/to_dataStoreExample"
             app:destination="@id/dataStoreExample" />
+        <action
+            android:id="@+id/to_cameraPreview"
+            app:destination="@id/cameraPreview" />
     </fragment>
     <fragment
         android:id="@+id/dataStoreExample"
         android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.DataStoreExample"
         android:label="DataStoreExample" />
+    <fragment
+        android:id="@+id/cameraPreview"
+        android:name="es.imagingroup.exampleviewmodelhiltdb.presentation.feature.camera.view.CameraPreview"
+        tools:layout="@layout/camera_preview" />
 </navigation>
