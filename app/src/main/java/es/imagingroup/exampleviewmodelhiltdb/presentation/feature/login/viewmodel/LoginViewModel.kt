@@ -27,7 +27,6 @@ class LoginViewModel @Inject constructor(
     val _password: MutableLiveData<String> = MutableLiveData()
     val password: LiveData<String> get() = _password
 
-
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> get() = _user
 
@@ -38,30 +37,15 @@ class LoginViewModel @Inject constructor(
 
     fun logIn(userName: String, password: String) {
         viewModelScope.launch {
-            loginUseCase.getImages()
-                .onStart { _loading.value = true }
-                .onCompletion { _loading.value = false }
-                .catch {
-                    _errorView.value = it as ErrorView }
-                .collect {
-                    Log.i("manel","informacion $it") }
-        }
-
-
-
-
-
-       /* viewModelScope.launch {
             loginUseCase.logIn(userName, password)
                 .onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }
                 .catch { _errorView.value = it as ErrorView }
                 .collect { _user.value = it }
-        }*/
+        }
     }
 
     fun clearValues() {
         _user.value = User()
     }
-
 }

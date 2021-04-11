@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetImagesUseCase {
     fun getImages(): Flow<ImageResponse>
+    fun savePhoto(nameFile: String, absolutePath: String): Flow<Boolean>
 }

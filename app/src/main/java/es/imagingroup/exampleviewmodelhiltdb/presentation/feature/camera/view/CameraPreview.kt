@@ -11,21 +11,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.annotation.MainThread
 import androidx.camera.core.*
+import androidx.camera.core.ImageCapture.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.Operation
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.eazypermissions.common.model.PermissionResult
 import com.eazypermissions.livedatapermission.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
+import es.app.laliguilla.core.extension.toByteArray
 import es.imagingroup.exampleviewmodelhiltdb.databinding.CameraPreviewBinding
 import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.camera.viewmodel.CameraPreviewViewModel
+import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.workmanager.*
+import kotlinx.coroutines.InternalCoroutinesApi
 import java.io.File
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
+@InternalCoroutinesApi
 @SuppressLint("RestrictedApi")
 @AndroidEntryPoint
 class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
@@ -35,6 +45,7 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
     private lateinit var preview: Preview
     private lateinit var binding: CameraPreviewBinding
     private val viewModel: CameraPreviewViewModel by viewModels()
+
     // Initialize our background executor
     private val cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -47,6 +58,7 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
     private val displayListener = object : DisplayManager.DisplayListener {
         override fun onDisplayAdded(displayId: Int) = Unit
         override fun onDisplayRemoved(displayId: Int) = Unit
+
         @SuppressLint("UnsafeExperimentalUsageError")
         override fun onDisplayChanged(displayId: Int) = view?.let { view ->
             if (displayId == -1) {
@@ -86,7 +98,13 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //1 Iniciar los permisos requeridos
-        PermissionManager.requestPermissions(this, 3, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        PermissionManager.requestPermissions(
+            this,
+            3,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
         displayManager = requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
         displayManager.registerDisplayListener(displayListener, null)
         binding.cameraPreview.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
@@ -95,6 +113,16 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
 
             override fun onViewAttachedToWindow(v: View) = displayManager.unregisterDisplayListener(displayListener)
         })
+
+        observerViewModels()
+    }
+
+    private fun observerViewModels() {
+        viewModel.photoSave.observe(viewLifecycleOwner, { result ->
+            if (result) {
+                Log.i("cameraPreview", "Hemos guardado la foto en el servidor")
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -102,8 +130,6 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
         // Shut down our background executor
         cameraExecutor.shutdown()
     }
-
-
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -134,41 +160,57 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
             setTargetRotation(binding.cameraPreview.display.rotation) // setting the rotation of the camera
         }.build()
 
-        photoCapture = ImageCapture.Builder().apply {
+        photoCapture = Builder().apply {
             setIoExecutor(cameraExecutor)
             setTargetAspectRatio(AspectRatio.RATIO_16_9) // setting the aspect ration
             setCameraSelector(cameraSelector) // setting the lens facing (front or back)
-            setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY) // setting to have pictures with highest quality possible
+            setCaptureMode(CAPTURE_MODE_MINIMIZE_LATENCY) // setting to have pictures with highest quality possible
             setTargetRotation(binding.cameraPreview.display.rotation) // setting the rotation of the camera
         }.build()
 
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
-        cameraProvider?.bindToLifecycle(this, cameraSelector, preview, photoCapture,videoCapture)
+        cameraProvider?.bindToLifecycle(this, cameraSelector, preview, photoCapture, videoCapture)
     }
 
-    fun capturePhoto(){
-        photoCapture.takePicture(ImageCapture.OutputFileOptions.Builder(photoFile).build(),cameraExecutor,object: ImageCapture.OnImageSavedCallback{
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                Log.i("manel", "Video File : $photoFile")
-            }
+    fun capturePhoto() {
+        with(photoCapture) {
+            takePicture(OutputFileOptions.Builder(photoFile).build(), cameraExecutor, object : OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: OutputFileResults) {
+                    Log.i("cameraPreview", "Image File : ${photoFile.absolutePath}")
+                    //viewModel.saveImage("photoClick_at_${System.currentTimeMillis()}", photoFile.absolutePath)
+                    saveImageWithWorkManager(photoFile)
+                }
 
-            override fun onError(exception: ImageCaptureException) {
-                Log.i("manel", "Video Error: ${exception.message}")
-            }
-        })
+                override fun onError(exception: ImageCaptureException) {
+                    Log.i("cameraPreview", "Video Error: ${exception.message}")
+                }
+            })
+        }
     }
 
-    fun captureVideo(){
-        videoCapture.startRecording(VideoCapture.OutputFileOptions.Builder(videoFile).build(), cameraExecutor, object : VideoCapture.OnVideoSavedCallback {
 
-            override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
-                Log.i("manel", "Video File : $videoFile")
-            }
+    private fun saveImageWithWorkManager(photoCapture: File) {
+        val myWorkRequest = OneTimeWorkRequestBuilder<SavePhotoServerWorker>()
+            .setInputData(workDataOf(NAMEFILE to "WORKMANAGER photoClick_at_${System.currentTimeMillis()}",PATHPHOTO to photoCapture.absolutePath))
+            .setInitialDelay(12,TimeUnit.SECONDS)
+            .build()
+        WorkManager.getInstance(requireContext()).enqueue(myWorkRequest)
+    }
 
-            override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-                Log.i("manel", "Video Error: $message")
-            }
-        })
+    fun captureVideo() {
+        videoCapture.startRecording(
+            VideoCapture.OutputFileOptions.Builder(videoFile).build(),
+            cameraExecutor,
+            object : VideoCapture.OnVideoSavedCallback {
+
+                override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
+                    Log.i("manel", "Video File : $videoFile")
+                }
+
+                override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
+                    Log.i("manel", "Video Error: $message")
+                }
+            })
     }
 
     override fun setupObserver(permissionResultLiveData: LiveData<PermissionResult>) {

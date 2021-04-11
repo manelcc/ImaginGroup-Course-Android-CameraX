@@ -13,4 +13,8 @@ class GetImagesUseCaseImpl @Inject constructor(
     override fun getImages(): Flow<ImageResponse> {
         return repository.loadImages()
     }
+
+    override fun savePhoto(nameFile: String, absolutePath: String): Flow<Boolean> {
+        return repository.savePhoto(nameFile,absolutePath)
+    }
 }

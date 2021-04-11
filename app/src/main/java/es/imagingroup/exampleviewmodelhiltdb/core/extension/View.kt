@@ -17,13 +17,14 @@
 
 package es.app.laliguilla.core.extension
 
-import android.R
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.media.Image
 import android.util.Base64
 import android.view.View
 import androidx.annotation.ColorRes
@@ -31,6 +32,24 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.animation.doOnCancel
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
+
+
+fun Image.toBitmap(): Bitmap {
+    val buffer = planes[0].buffer
+    buffer.rewind()
+    val bytes = ByteArray(buffer.capacity())
+    buffer.get(bytes)
+    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+}
+
+fun Image.toByteArray():ByteArray{
+    val buffer = planes[0].buffer
+    buffer.rewind()
+    buffer.compact()
+    return ByteArray(buffer.capacity())
+
+    //buffer.get(bytes)
+}
 
 val Int.pxToDp: Int
     get() = (this / Resources.getSystem().displayMetrics.density).toInt()
