@@ -13,6 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import es.app.laliguilla.core.extension.showSnackbar
 import es.imagingroup.exampleviewmodelhiltdb.R
+import es.imagingroup.exampleviewmodelhiltdb.core.extension.hideSoftKeyboard
 import es.imagingroup.exampleviewmodelhiltdb.databinding.LoginFragmentBinding
 import es.imagingroup.exampleviewmodelhiltdb.domain.exception.ErrorView
 import es.imagingroup.exampleviewmodelhiltdb.domain.model.User
@@ -58,7 +59,7 @@ class LoginFragment : Fragment() {
 
     fun loading(isLoading: Boolean) {
         when (isLoading) {
-            true -> binding.loginLoading.visibility = VISIBLE
+            true -> {binding.loginLoading.visibility = VISIBLE;hideSoftKeyboard()}
             false -> binding.loginLoading.visibility = GONE
         }
     }

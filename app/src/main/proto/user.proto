@@ -8,3 +8,9 @@ message UserProto {
   string lastname = 2;
   int32 age = 3;
 }
+
+message UserProtoEncript {
+  string name = 1;
+  string lastname = 2;
+  int32 age = 3;
+}

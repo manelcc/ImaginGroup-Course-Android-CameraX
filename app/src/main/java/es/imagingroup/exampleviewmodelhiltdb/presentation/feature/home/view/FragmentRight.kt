@@ -31,4 +31,10 @@ class FragmentRight:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.inputText = sharedViewModel.inputText
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        println("🥵 ${this.javaClass.simpleName} #${this.hashCode()}  onDestroyView()")
+        binding.invalidateAll()
+    }
 }

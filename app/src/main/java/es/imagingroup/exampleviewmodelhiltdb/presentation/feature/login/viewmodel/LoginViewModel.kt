@@ -21,7 +21,6 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: GetLoginUseCase
 ) : BaseViewModel() {
 
-    private lateinit var job: Job
     val _userName: MutableLiveData<String> = MutableLiveData()
     val userName: LiveData<String> get() = _userName
     val _password: MutableLiveData<String> = MutableLiveData()
@@ -37,15 +36,12 @@ class LoginViewModel @Inject constructor(
     }
 
     fun logIn(userName: String, password: String) {
-
-         job = viewModelScope.launch {
+        viewModelScope.launch {
             loginUseCase.logIn(userName, password)
                 .onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }
                 .catch { _errorView.value = it as ErrorView }
-                .collect {
-                    _user.value = it }
-
+                .collect { _user.value = it }
         }
     }
 
