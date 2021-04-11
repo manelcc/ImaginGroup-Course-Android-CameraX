@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.MainThread
 import androidx.camera.core.*
 import androidx.camera.core.ImageCapture.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -20,16 +19,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.Operation
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.eazypermissions.common.model.PermissionResult
 import com.eazypermissions.livedatapermission.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
-import es.app.laliguilla.core.extension.toByteArray
 import es.imagingroup.exampleviewmodelhiltdb.databinding.CameraPreviewBinding
 import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.camera.viewmodel.CameraPreviewViewModel
-import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.workmanager.*
+import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.workmanager.NAMEFILE
+import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.workmanager.PATHPHOTO
+import es.imagingroup.exampleviewmodelhiltdb.presentation.feature.workmanager.SavePhotoServerWorker
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.io.File
 import java.util.concurrent.Executors

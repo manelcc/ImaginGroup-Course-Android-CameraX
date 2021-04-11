@@ -29,7 +29,6 @@ import android.util.Base64
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.animation.doOnCancel
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
 

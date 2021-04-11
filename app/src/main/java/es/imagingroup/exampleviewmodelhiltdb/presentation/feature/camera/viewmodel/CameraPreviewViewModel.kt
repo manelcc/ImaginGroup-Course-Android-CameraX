@@ -1,11 +1,7 @@
 package es.imagingroup.exampleviewmodelhiltdb.presentation.feature.camera.viewmodel
 
-import android.util.Log
-import android.widget.Toast
-import androidx.camera.core.ImageCapture
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.imagingroup.exampleviewmodelhiltdb.core.view.BaseViewModel
@@ -16,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel

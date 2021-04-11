@@ -22,7 +22,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_root"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

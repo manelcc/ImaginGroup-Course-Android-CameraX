@@ -2,7 +2,6 @@ package es.imagingroup.exampleviewmodelhiltdb.data.datasource
 
 import es.imagingroup.exampleviewmodelhiltdb.data.entities.ImageResponse
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface ImagesDatasource {
     fun loadImages(): Flow<ImageResponse>

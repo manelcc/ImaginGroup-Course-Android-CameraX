@@ -3,9 +3,7 @@ package es.imagingroup.exampleviewmodelhiltdb.presentation.feature.datastore.vie
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
 import es.imagingroup.exampleviewmodelhiltdb.core.view.BaseViewModel
