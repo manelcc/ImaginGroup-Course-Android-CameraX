@@ -1,5 +1,6 @@
 package es.imagingroup.exampleviewmodelhiltdb.presentation.feature.login.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -37,12 +38,26 @@ class LoginViewModel @Inject constructor(
 
     fun logIn(userName: String, password: String) {
         viewModelScope.launch {
+            loginUseCase.getImages()
+                .onStart { _loading.value = true }
+                .onCompletion { _loading.value = false }
+                .catch {
+                    _errorView.value = it as ErrorView }
+                .collect {
+                    Log.i("manel","informacion $it") }
+        }
+
+
+
+
+
+       /* viewModelScope.launch {
             loginUseCase.logIn(userName, password)
                 .onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }
                 .catch { _errorView.value = it as ErrorView }
                 .collect { _user.value = it }
-        }
+        }*/
     }
 
     fun clearValues() {

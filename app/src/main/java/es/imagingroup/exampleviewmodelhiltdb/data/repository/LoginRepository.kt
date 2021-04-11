@@ -1,5 +1,6 @@
 package es.imagingroup.domain.repository
 
+import es.imagingroup.exampleviewmodelhiltdb.data.entities.ImageResponse
 import es.imagingroup.exampleviewmodelhiltdb.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
