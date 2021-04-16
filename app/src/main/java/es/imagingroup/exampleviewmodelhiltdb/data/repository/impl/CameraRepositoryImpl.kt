@@ -13,7 +13,7 @@ class CameraRepositoryImpl @Inject constructor(
     private val imagesDatasource: ImagesDatasource
 ):CameraRepository {
 
-    override fun loadImages(): Flow<ImageResponse> {
+    override fun loadImages(): Flow<List<ImageResponse>> {
         return imagesDatasource.loadImages().catch { throw getError(it) }
     }
 

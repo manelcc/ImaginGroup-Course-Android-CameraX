@@ -3,6 +3,7 @@ package es.imagingroup.exampleviewmodelhiltdb.data.datasource
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import es.imagingroup.exampleviewmodelhiltdb.data.api.ApiImages
 import es.imagingroup.exampleviewmodelhiltdb.data.entities.ImageResponse
 import es.imagingroup.exampleviewmodelhiltdb.data.exception.getError
@@ -22,12 +23,10 @@ import kotlin.math.roundToInt
 
 class ImagesDatasourceImpl @Inject constructor(private val apiImages: ApiImages) : ImagesDatasource {
 
-    override fun loadImages(): Flow<ImageResponse> {
+    override fun loadImages(): Flow<List<ImageResponse>> {
         return flow {
-            emit(apiImages.getListImages().first())
-        }.catch {
-            throw getError(it)
-        }
+            emit(apiImages.getListImages())
+        }.catch { throw getError(it) }
     }
 
     override fun saveImage(nameFile: String, pathFile: String): Flow<Boolean> {
@@ -46,7 +45,8 @@ class ImagesDatasourceImpl @Inject constructor(private val apiImages: ApiImages)
         return mapOf("filename" to nameFile.toRequestBody("text/plain".toMediaTypeOrNull()))
     }
 
-    private fun getFile(path: String): MultipartBody.Part {
+    @VisibleForTesting
+    fun getFile(path: String): MultipartBody.Part {
         //val bitmap: Bitmap? = null
         val file = File(path)
         resizeBitmap(file, path)

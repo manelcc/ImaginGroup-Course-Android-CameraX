@@ -12,7 +12,7 @@ interface ApiImages {
      * GET IMAGES
      */
     @GET("/api/getImages")
-    suspend fun getListImages(): ArrayList<ImageResponse>
+    suspend fun getListImages(): List<ImageResponse>
 
     /**
      * SAVE PHOTO

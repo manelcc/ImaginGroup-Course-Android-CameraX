@@ -4,6 +4,6 @@ import es.imagingroup.exampleviewmodelhiltdb.data.entities.ImageResponse
 import kotlinx.coroutines.flow.Flow
 
 interface ImagesDatasource {
-    fun loadImages(): Flow<ImageResponse>
+    fun loadImages(): Flow<List<ImageResponse>>
     fun saveImage(nameFile: String, pathFile: String): Flow<Boolean>
 }

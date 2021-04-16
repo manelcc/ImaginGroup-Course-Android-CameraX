@@ -7,7 +7,7 @@ data class ImageResponse(
     @SerializedName("descripcionfile")
     val descripcionfile: String,
     @SerializedName("file")
-    val imageFile: ByteArray ,
+    val imageFile: String ,//Del servicio viene un string es en el mapper que se convierte a ByteArray
     @SerializedName("id")
     val id: Int,
     @SerializedName("namefile")

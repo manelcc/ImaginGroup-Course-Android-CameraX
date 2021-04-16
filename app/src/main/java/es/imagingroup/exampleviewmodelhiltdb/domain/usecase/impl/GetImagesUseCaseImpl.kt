@@ -10,7 +10,7 @@ class GetImagesUseCaseImpl @Inject constructor(
     private val repository: CameraRepository
 ):GetImagesUseCase {
 
-    override fun getImages(): Flow<ImageResponse> {
+    override fun getImages(): Flow<List<ImageResponse>> {
         return repository.loadImages()
     }
 

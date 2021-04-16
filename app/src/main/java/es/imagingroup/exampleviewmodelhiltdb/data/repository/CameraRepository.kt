@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CameraRepository {
 
-    fun loadImages(): Flow<ImageResponse>
+    fun loadImages(): Flow<List<ImageResponse>>
     fun savePhoto(nameFile: String, pathFile: String): Flow<Boolean>
     fun saveVideo(nameFile: String, pathFile: String): Flow<Boolean>
 }
