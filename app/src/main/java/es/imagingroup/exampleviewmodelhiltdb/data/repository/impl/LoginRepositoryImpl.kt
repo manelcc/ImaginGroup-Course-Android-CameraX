@@ -1,23 +1,27 @@
 package es.imagingroup.exampleviewmodelhiltdb.data.repository.impl
 
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import es.imagingroup.domain.repository.LoginRepository
 import es.imagingroup.exampleviewmodelhiltdb.UserProtoEncript
 import es.imagingroup.exampleviewmodelhiltdb.data.exception.getError
+import es.imagingroup.exampleviewmodelhiltdb.domain.exception.ErrorView
 import es.imagingroup.exampleviewmodelhiltdb.domain.model.User
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
 class LoginRepositoryImpl @Inject constructor(
-    private val userProtoEncript: DataStore<UserProtoEncript>
+    private val userProtoEncript: DataStore<UserProtoEncript>,
+    private val preferences: SharedPreferences
 ) : LoginRepository {
 
     override fun logIn(userName: String, password: String): Flow<User> {
-        return flow { emit(fakeLogin(userProtoEncript)) }.catch { throw getError(it) }
+        return flow { emit(fakeLogin(userProtoEncript)) }
     }
 
 

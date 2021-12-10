@@ -11,5 +11,5 @@ data class ImageResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("namefile")
-    val namefile: String
+    private val namefile: String
 )

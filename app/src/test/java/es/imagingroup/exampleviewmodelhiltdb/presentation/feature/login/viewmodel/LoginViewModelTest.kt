@@ -68,22 +68,17 @@ class LoginViewModelTest {
             viewModel.loading.getOrAwaitValue() assertValue true
         }.collect()
 
-        advanceTimeBy(3000)
-        advanceUntilIdle()
 
 
-
-        advanceTimeBy(8000)
+        advanceTimeBy(10000)
         advanceUntilIdle()
 
         actual.onCompletion {
             viewModel.loading.getOrAwaitValue() assertValue false
         }.collect {
             val user= viewModel.user.getOrAwaitValue()
-            user.name assertValue "jose"
+            user.name assertValue "manel"
         }
-
-
 
 
         coroutineScope.cleanupTestCoroutines()

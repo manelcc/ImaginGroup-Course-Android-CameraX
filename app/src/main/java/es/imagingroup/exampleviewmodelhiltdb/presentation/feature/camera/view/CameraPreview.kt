@@ -61,7 +61,7 @@ class CameraPreview : Fragment(), PermissionManager.PermissionObserver {
         @SuppressLint("UnsafeExperimentalUsageError")
         override fun onDisplayChanged(displayId: Int) = view?.let { view ->
             if (displayId == -1) {
-                preview.setTargetRotation(view.display.rotation)
+                preview.targetRotation = view.display.rotation
                 videoCapture.setTargetRotation(view.display.rotation)
             }
         } ?: Unit

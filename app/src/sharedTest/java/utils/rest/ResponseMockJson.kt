@@ -12,12 +12,6 @@ import java.lang.reflect.Type
 
 class ResponseMockJson {
 
-    companion object{
-        fun <T> manel(json: String): T {
-            return Gson().fromJson(json, object : TypeToken<List<ImageResponse>>() {}.type)
-        }
-    }
-
     private infix fun String.concat(anotherString: String): String = this.plus(anotherString)
     private fun getInputStreamFromResource(fileName: String) = javaClass.classLoader?.getResourceAsStream(fileName)
 
@@ -46,11 +40,5 @@ class ResponseMockJson {
             return byteStream.toByteArray()
         }
     }
-
-/*
-
-    internal inline fun <reified T> Gson.fromJson(json: String) =
-        fromJson<T>(json, object : TypeToken<T>() {}.type)
-        */
 
 }
